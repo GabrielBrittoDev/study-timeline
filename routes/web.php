@@ -21,15 +21,18 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Route::bind('user', function ($value){
+Route::bind('username', function ($value){
     return \App\User::where('id', $value)->orWhere('username', $value)->first();
 });
 
-Route::get('/{username}', 'user\UserController@show');
 
 Route::prefix('achievement')->namespace('achievement')->group(function (){
-    Route::get('/{id}', 'AchievementController@show');
-    Route::post('/', 'AchievementController@store');
+    Route::get('/{id}', 'AchievementController@show')->name('achievement.show');
+    Route::post('/', 'AchievementController@store')->name('achievement.store');
     Route::put('/{id}', 'AchievementController@update');
     Route::delete('/{id}', 'AchievementController@destroy');
 });
+
+
+
+Route::get('/{username}', 'user\UserController@show')->name('user.show');

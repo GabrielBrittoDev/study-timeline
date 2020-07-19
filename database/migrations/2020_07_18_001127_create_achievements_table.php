@@ -13,13 +13,13 @@ class CreateAchievementsTable extends Migration
      */
     public function up()
     {
-        Schema::create('achievement', function (Blueprint $table) {
+        Schema::create('achievements', function (Blueprint $table) {
             $table->id();
             $table->string('title');
+            $table->string('subtitle')->nullable();
             $table->unsignedInteger('user_id');
             $table->text('description');
             $table->date('date');
-            $table->time('time')->nullable();
             $table->timestamps();
 
             $table->index('user_id');

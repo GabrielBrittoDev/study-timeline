@@ -24,10 +24,10 @@ class AchievementStoreRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => ['required', 'string', 'min:2', 'max:20'],
+            'title' => ['required', 'string', 'min:2', 'max:40'],
+            'subtitle' => ['max:25'],
             'description' => ['required', 'string', 'min:10', 'max:300'],
-            'date' => ['required', 'date'],
-            'time' => ['string']
+            'date' => ['required', 'date']
         ];
     }
 }

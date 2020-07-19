@@ -16,6 +16,6 @@ class UserController extends Controller
     }
 
     public function show(User $user){
-        return view('user/user_timeline')->with(compact($user));
+        return view('user/user_timeline')->with(['achievements' => $user->achievements()->get()]);
     }
 }

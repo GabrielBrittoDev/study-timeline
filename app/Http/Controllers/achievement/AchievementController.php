@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\achievement;
 
 use App\achievement\Achievement;
+use App\Http\Controllers\Controller;
 use App\Http\Requests\achievement\AchievementStoreRequest;
 use Illuminate\Http\Request;
 
@@ -19,7 +20,10 @@ class AchievementController extends Controller
     public function store(AchievementStoreRequest $request){
         $validated = $request->validated();
         $validated['user_id'] = auth()->user()->id;
-        return $this->achievement->create($validated);
+
+        $achievement = $this->achievement->create($validated);
+
+        return response()->json(compact('achievement'), 201);
     }
 
     public function update($request){
