@@ -26,13 +26,21 @@ class AchievementController extends Controller
         return response()->json(compact('achievement'), 201);
     }
 
-    public function update($request){
+    public function update(AchievementStoreRequest $request, int $id){
+        $achievement = $this->achievement->findOrFail($id);
+        $validated = $request->validated();
 
+        $achievement->user_id = auth()->user()->id;
 
+        return $achievement->update($validated);
     }
 
     public function destroy(int $id){
+        $achievement = $this->achievement->findOrFail($id);
 
+        if ($achievement->delete()){
+            return response()->json(['message' => 'Realização excluida'], 200);
+        }
     }
 
     public function show(int $id){

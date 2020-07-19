@@ -4,6 +4,7 @@
  * building robust, powerful web applications using Vue and Laravel.
  */
 import vuetify from './vuetify'
+import VuetifyConfirm from 'vuetify-confirm'
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -18,9 +19,14 @@ window.Vue = require('vue');
 
 // const files = require.context('./', true, /\.vue$/i)
 // files.keys().map(key => Vue.component(key.split('/').pop().split('.')[0], files(key).default))
+Vue.use(VuetifyConfirm, { vuetify,
+    buttonTrueText: 'Sim',
+    buttonFalseText: 'Não'
+});
 
 Vue.component('timeline', require('./components/Timeline.vue').default);
 Vue.component('user_timeline', require('./pages/UserTimeline.vue').default);
+Vue.component('dialog-form', require('./components/DialogForm.vue').default);
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
