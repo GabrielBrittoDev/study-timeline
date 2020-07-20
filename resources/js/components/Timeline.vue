@@ -17,7 +17,7 @@
             <v-btn @click="confirmDelete">
                 excluir
             </v-btn>
-            <v-btn @click="deleteAchievement(achievement)">
+            <v-btn @click="edit()">
                 editar
             </v-btn>
         </div>
@@ -38,6 +38,9 @@
                         if (res) this.deleteAchievement(this.achievement);
                     });
             },
+            edit(){
+                this.$emit('edit',{...this.achievement});
+            }
         }
     }
 </script>

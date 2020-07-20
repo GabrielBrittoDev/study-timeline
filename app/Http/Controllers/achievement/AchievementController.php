@@ -31,8 +31,9 @@ class AchievementController extends Controller
         $validated = $request->validated();
 
         $achievement->user_id = auth()->user()->id;
+        $achievement->update($validated);
 
-        return $achievement->update($validated);
+        return response()->json(['achievement' => $achievement], 200);
     }
 
     public function destroy(int $id){

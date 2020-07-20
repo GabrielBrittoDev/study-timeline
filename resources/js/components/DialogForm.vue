@@ -70,20 +70,20 @@
         props: {
             create: Function,
             update: Function,
-            formatDate: Function
+            formatDate: Function,
+            achievement: {
+                id: 0,
+                title: '',
+                subtitle: '',
+                description: '',
+                date: '',
+            },
         },
         data() {
             return {
-                dialog: false,
                 menu: false,
                 dateFormatted: '',
-                achievement: {
-                    id: 0,
-                    title: '',
-                    subtitle: '',
-                    description: '',
-                    date: '',
-                },
+                dialog: false,
             }
         },
         methods: {
@@ -93,9 +93,11 @@
                 return `${year}-${day.padStart(2, '0')}-${month.padStart(2, '0')}`
             },
             save(){
-                const exeFunc = this.achievement.id === 0 ? this.create : this.update;
+                const exeFunc = this.achievement.id === 0 || this.achievement.id === undefined ? this.create : this.update;
 
                 exeFunc(this.achievement);
+
+                this.dialog = false;
             },
             resetForm(){
                 this.achievement.id = 0;
@@ -103,14 +105,17 @@
                 this.achievement.subtitle = '';
                 this.achievement.date = '';
                 this.achievement.title = '';
-            }
+            },
         },
         watch: {
-            'achievement.date': function (oldVal, newVal) {
+            'achievement.date': function (newVal, oldVal) {
                 this.dateFormatted = this.formatDate(this.achievement.date);
             },
-            dialog(oldVal, newVal){
-                if (oldVal && !newVal) this.resetForm();
+            'achievement.id': function (newVal, oldVal){
+                if (newVal !== 0 && newVal !== undefined) this.dialog = true;
+            },
+            dialog(newVal, oldVal){
+                if (!newVal && oldVal) this.resetForm();
             }
         },
     }

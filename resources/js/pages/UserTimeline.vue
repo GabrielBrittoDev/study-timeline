@@ -4,11 +4,12 @@
             :format-date="formatDate"
             :create="create"
             :update="update"
+            :achievement.sync="achievement"
         ></dialog-form>
         <v-timeline class="px-10">
             <timeline
                 v-for="achievement in achievements"
-                @edit=""
+                @edit="edit"
                 :achievement="achievement"
                 :key="achievement.id"
                 :format-date="formatDate"
@@ -30,7 +31,8 @@
         },
         data(){
             return {
-                achievements: []
+                achievements: [],
+                achievement: {},
             }
         },
         components: {
@@ -49,9 +51,12 @@
                 .catch((err) => console.log(err.response))
             },
             update(achievement){
-                axios.put('http://localhost:8000/achievement/' + achievement.id)
+                axios.put('http://localhost:8000/achievement/' + achievement.id, achievement)
                 .then(response => {
-                    console.log(response);
+                    achievement = response.data.achievement;
+                    this.achievements = this.achievements.map((value) => {
+                        return value.id === achievement.id ? achievement : value;
+                    });
                 })
                 .catch( error => console.log(error.response));
             },
@@ -69,6 +74,10 @@
                 const [year, month, day] = date.split('-');
                 return `${day}/${month}/${year}`;
             },
+            edit(achievement){
+               this.achievement = achievement;
+            },
+
         },
         mounted(){
             this.achievements = this.achievementsData;
