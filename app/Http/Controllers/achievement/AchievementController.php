@@ -6,6 +6,7 @@ use App\achievement\Achievement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\achievement\AchievementStoreRequest;
 use Illuminate\Http\Request;
+use Illuminate\Validation\ValidationException;
 
 class AchievementController extends Controller
 {
@@ -18,29 +19,49 @@ class AchievementController extends Controller
 
 
     public function store(AchievementStoreRequest $request){
-        $validated = $request->validated();
-        $validated['user_id'] = auth()->user()->id;
+        try {
+            $validated = $request->validated();
+            $validated['user_id'] = auth()->user()->id;
 
-        $achievement = $this->achievement->create($validated);
-
-        return response()->json(compact('achievement'), 201);
+            $achievement = $this->achievement->create($validated);
+            $message = 'Realização registrada com sucesso!';
+            return response()->json(compact('achievement', 'message'), 201);
+        }catch (ValidationException $e){
+            return response()->json(['message' => $e->getMessage()], 422);
+        } catch (\Exception $ex){
+            $message = 'Erro ao criar realização';
+            return response()->json(compact('message'), 500);
+        }
     }
 
     public function update(AchievementStoreRequest $request, int $id){
-        $achievement = $this->achievement->findOrFail($id);
-        $validated = $request->validated();
+        try {
+            $achievement = $this->achievement->findOrFail($id);
+            $validated = $request->validated();
 
-        $achievement->user_id = auth()->user()->id;
-        $achievement->update($validated);
-
-        return response()->json(['achievement' => $achievement], 200);
+            $achievement->user_id = auth()->user()->id;
+            $achievement->update($validated);
+            $message = 'Realização atualizada com sucesso!';
+            return response()->json(compact('achievement', 'message'), 200);
+        } catch (ValidationException $e){
+            return response()->json(['message' => $e->getMessage()], 422);
+        }
+        catch (\Exception $e){
+            $message = 'Erro ao atualizar realização';
+            return response()->json(compact('message'), 500);
+        }
     }
 
     public function destroy(int $id){
-        $achievement = $this->achievement->findOrFail($id);
 
-        if ($achievement->delete()){
-            return response()->json(['message' => 'Realização excluida'], 200);
+        try {
+            $achievement = $this->achievement->findOrFail($id);
+            if ($achievement->delete()) {
+                return response()->json(['message' => 'Realização excluida'], 200);
+            }
+            return response()->json(['message' => 'Erro ao deletar realização'], 500);
+        } catch (\Exception $e) {
+            return response()->json(['message' => 'Erro ao deletar realização'], 500);
         }
     }
 

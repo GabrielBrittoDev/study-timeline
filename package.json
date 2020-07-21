@@ -25,6 +25,7 @@
     },
     "dependencies": {
         "@mdi/font": "^5.3.45",
+        "vue-toastr": "^2.1.2",
         "vuetify": "^2.3.4",
         "vuetify-confirm": "^2.0.5"
     }

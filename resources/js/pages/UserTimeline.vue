@@ -46,9 +46,18 @@
                     this.achievements = _.orderBy(this.achievements, [(obj => {
                         return new Date(obj.date);
                     })], ['asc']);
-
+                    this.$toastr.s(response.data.message, 'Sucesso! ');
                 })
-                .catch((err) => console.log(err.response))
+                    .catch( err => {
+                        if (err.response.status === 422){
+                            console.log(err.response);
+                            for (let error in err.response.data.errors){
+                                this.$toastr.e(error);
+                            }
+                        } else {
+                            this.$toastr.e(err.response.data.message, 'Erro!')
+                        }
+                    });
             },
             update(achievement){
                 axios.put('http://localhost:8000/achievement/' + achievement.id, achievement)
@@ -57,16 +66,27 @@
                     this.achievements = this.achievements.map((value) => {
                         return value.id === achievement.id ? achievement : value;
                     });
+                    this.$toastr.s(response.data.message, 'Sucesso! ');
                 })
-                .catch( error => console.log(error.response));
+                    .catch( err => {
+                        if (err.response.status === 422){
+                            console.log(err.response);
+                            for (let error in err.response.data.errors){
+                                this.$toastr.e(error);
+                            }
+                        } else {
+                            this.$toastr.e(err.response.data.message, 'Erro!')
+                        }
+                    });
             },
 
             deleteAchievement(achievement){
                 axios.delete('http://localhost:8000/achievement/' + achievement.id)
                     .then(response => {
                         this.achievements = this.achievements.filter(value => value.id !== achievement.id);
+                        this.$toastr.s(response.data.message, 'Sucesso! ');
                     })
-                    .catch( error => console.log(error.response))
+                    .catch( err => this.$toastr.e(err.response.data.message, 'Erro!'))
             },
             formatDate(date){
                 if (!date) return null;

@@ -5,6 +5,9 @@
  */
 import vuetify from './vuetify'
 import VuetifyConfirm from 'vuetify-confirm'
+import VueToastr from "vue-toastr";
+
+
 require('./bootstrap');
 
 window.Vue = require('vue');
@@ -23,6 +26,7 @@ Vue.use(VuetifyConfirm, { vuetify,
     buttonTrueText: 'Sim',
     buttonFalseText: 'Não'
 });
+Vue.use(VueToastr, {});
 
 Vue.component('timeline', require('./components/Timeline.vue').default);
 Vue.component('user_timeline', require('./pages/UserTimeline.vue').default);
