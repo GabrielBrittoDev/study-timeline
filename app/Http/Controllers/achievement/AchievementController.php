@@ -5,6 +5,7 @@ namespace App\Http\Controllers\achievement;
 use App\achievement\Achievement;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\achievement\AchievementStoreRequest;
+use App\Rules\OutOfDate;
 use Illuminate\Http\Request;
 use Illuminate\Validation\ValidationException;
 
@@ -28,7 +29,7 @@ class AchievementController extends Controller
             return response()->json(compact('achievement', 'message'), 201);
         }catch (ValidationException $e){
             return response()->json(['message' => $e->getMessage()], 422);
-        } catch (\Exception $ex){
+        } catch (\Exception $e){
             $message = 'Erro ao criar realização';
             return response()->json(compact('message'), 500);
         }
@@ -36,7 +37,12 @@ class AchievementController extends Controller
 
     public function update(AchievementStoreRequest $request, int $id){
         try {
+
             $achievement = $this->achievement->findOrFail($id);
+            $this->validate(new Request(['date' => $achievement->date]), [
+               'date' => new OutOfDate()
+            ]);
+
             $validated = $request->validated();
 
             $achievement->user_id = auth()->user()->id;
@@ -68,4 +74,6 @@ class AchievementController extends Controller
     public function show(int $id){
 
     }
+
+
 }
