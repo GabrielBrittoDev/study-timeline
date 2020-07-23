@@ -16,13 +16,15 @@ class AchievementController extends Controller
     public function __construct(Achievement $achievement)
     {
         $this->achievement = $achievement;
+        $this->middleware('auth');
     }
 
 
     public function store(AchievementStoreRequest $request){
         try {
             $validated = $request->validated();
-            $validated['user_id'] = auth()->user()->id;
+
+            $this->authorize('all', $request);
 
             $achievement = $this->achievement->create($validated);
             $message = 'Realização registrada com sucesso!';
@@ -45,14 +47,14 @@ class AchievementController extends Controller
 
             $validated = $request->validated();
 
-            $achievement->user_id = auth()->user()->id;
+            $this->authorize('all', $request);
+
             $achievement->update($validated);
             $message = 'Realização atualizada com sucesso!';
             return response()->json(compact('achievement', 'message'), 200);
         } catch (ValidationException $e){
             return response()->json(['message' => $e->getMessage()], 422);
-        }
-        catch (\Exception $e){
+        } catch (\Exception $e){
             $message = 'Erro ao atualizar realização';
             return response()->json(compact('message'), 500);
         }
@@ -62,6 +64,9 @@ class AchievementController extends Controller
 
         try {
             $achievement = $this->achievement->findOrFail($id);
+
+            $this->authorize('all', $achievement);
+
             if ($achievement->delete()) {
                 return response()->json(['message' => 'Realização excluida'], 200);
             }

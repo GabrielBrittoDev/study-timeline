@@ -14,12 +14,14 @@
             <div>
                 {{ achievement.description}}
             </div>
-            <v-btn @click="confirmDelete">
-                excluir
-            </v-btn>
-            <v-btn @click="edit()">
-                editar
-            </v-btn>
+            <div  v-if="user_id && user_id === achievement.user_id">
+                <v-btn @click="confirmDelete">
+                    excluir
+                </v-btn>
+                <v-btn @click="edit">
+                    editar
+                </v-btn>
+            </div>
         </div>
     </v-timeline-item>
 </template>
@@ -31,6 +33,11 @@
             formatDate: Function,
             deleteAchievement: Function,
         },
+        data(){
+            return {
+                user_id: this.$userId
+            }
+        },
         methods: {
             confirmDelete(){
                 this.$confirm('Tem certeza que deseja deletar a realização')
@@ -40,6 +47,9 @@
             },
             edit(){
                 this.$emit('edit',{...this.achievement});
+            },
+            authorize(){
+
             }
         }
     }

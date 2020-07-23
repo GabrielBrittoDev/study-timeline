@@ -77,6 +77,7 @@
                 subtitle: '',
                 description: '',
                 date: '',
+                user_id: 0,
             },
         },
         data() {
@@ -94,7 +95,6 @@
             },
             save(){
                 const exeFunc = this.achievement.id === 0 || this.achievement.id === undefined ? this.create : this.update;
-
                 exeFunc(this.achievement);
 
                 this.dialog = false;
@@ -118,6 +118,9 @@
                 if (!newVal && oldVal) this.resetForm();
             }
         },
+        mounted(){
+            this.achievement.user_id = this.$userId;
+        }
     }
 </script>
 

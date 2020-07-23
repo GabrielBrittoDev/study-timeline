@@ -5,6 +5,7 @@
             :create="create"
             :update="update"
             :achievement.sync="achievement"
+            v-if="user_id"
         ></dialog-form>
         <v-timeline class="px-10">
             <timeline
@@ -33,6 +34,7 @@
             return {
                 achievements: [],
                 achievement: {},
+                user_id: this.$userId,
             }
         },
         components: {
@@ -86,7 +88,13 @@
                         this.achievements = this.achievements.filter(value => value.id !== achievement.id);
                         this.$toastr.s(response.data.message, 'Sucesso! ');
                     })
-                    .catch( err => this.$toastr.e(err.response.data.message, 'Erro!'))
+                    .catch( err => {
+                        if (err.response.status === 401){
+                            this.$toastr.e('Você não tem autorização :/', 'Erro!');
+                        } else {
+                            this.$toastr.e(err.response.data.message, 'Erro!');
+                        }
+                    });
             },
             formatDate(date){
                 if (!date) return null;

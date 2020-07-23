@@ -28,7 +28,8 @@ class AchievementStoreRequest extends FormRequest
             'title' => ['required', 'string', 'min:2', 'max:40'],
             'subtitle' => ['max:25'],
             'description' => ['required', 'string', 'min:10', 'max:300'],
-            'date' => ['required', 'date', new OutOfDate]
+            'date' => ['required', 'date', new OutOfDate],
+            'user_id' => ['required']
         ];
     }
 }
