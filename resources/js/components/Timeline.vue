@@ -48,9 +48,6 @@
             edit(){
                 this.$emit('edit',{...this.achievement});
             },
-            authorize(){
-
-            }
         }
     }
 </script>

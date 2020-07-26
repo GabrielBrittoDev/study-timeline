@@ -5,7 +5,7 @@
             :create="create"
             :update="update"
             :achievement.sync="achievement"
-            v-if="user_id"
+            v-if="logged_user_id === user.id"
         ></dialog-form>
         <v-timeline class="px-10">
             <timeline
@@ -29,12 +29,13 @@
         name: "UserTimeline",
         props: {
             achievementsData: Array,
+            user: Object,
         },
         data(){
             return {
                 achievements: [],
                 achievement: {},
-                user_id: this.$userId,
+                logged_user_id: this.$userId,
             }
         },
         components: {

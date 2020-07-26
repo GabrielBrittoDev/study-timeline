@@ -7,7 +7,9 @@
 
 
                 <div class="">
-                    <user_timeline :achievements-data='{!! json_encode($achievements) !!}'>
+                    <user_timeline
+                        :user='{!! json_encode($user) !!}'
+                        :achievements-data='{!! json_encode($achievements) !!}'>
 
                     </user_timeline>
 

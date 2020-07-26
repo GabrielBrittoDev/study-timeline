@@ -38,7 +38,7 @@ Vue.component('dialog-form', require('./components/DialogForm.vue').default);
  */
 let meta = document.querySelector("meta[name='user_id']");
 if (meta){
-    Vue.prototype.$userId = meta.getAttribute('content');
+    Vue.prototype.$userId = Number(meta.getAttribute('content'));
 }
 
 const app = new Vue({
