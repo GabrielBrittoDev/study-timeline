@@ -8,7 +8,6 @@
                 <v-btn
                     class="font-weight-bold"
                     outlined
-                    bold
                     color="#1976d2"
                 >
                     Home
