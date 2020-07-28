@@ -95,8 +95,4 @@
     section{
         margin: 150px 200px 0 200px;
     }
-    .section-fade-enter{
-        transform: translateX(10px);
-        opacity: 0;
-    }
 </style>
