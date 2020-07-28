@@ -6,7 +6,8 @@
 import vuetify from './vuetify'
 import VuetifyConfirm from 'vuetify-confirm'
 import VueToastr from "vue-toastr";
-
+import AOS from 'aos';
+import 'aos/dist/aos.css'
 
 require('./bootstrap');
 
@@ -29,8 +30,10 @@ Vue.use(VuetifyConfirm, { vuetify,
 Vue.use(VueToastr, {});
 
 Vue.component('timeline', require('./components/Timeline.vue').default);
-Vue.component('user_timeline', require('./pages/UserTimeline.vue').default);
+Vue.component('user_timeline', require('./view/UserTimeline.vue').default);
 Vue.component('dialog-form', require('./components/DialogForm.vue').default);
+Vue.component('landing-page', require('./view/Landing.vue').default);
+
 /**
  * Next, we will create a fresh Vue application instance and attach it to
  * the page. Then, you may begin adding components to this application
@@ -44,4 +47,7 @@ if (meta){
 const app = new Vue({
     vuetify,
     el: '#app',
+    created(){
+        AOS.init();
+    }
 });
