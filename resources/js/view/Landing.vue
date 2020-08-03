@@ -5,27 +5,50 @@
                 <h1>Afrek</h1>
             </div>
             <v-flex class="navbar" style="right: 5px; position: absolute">
-                <v-btn
-                    class="font-weight-bold"
-                    outlined
-                    color="#1976d2"
-                >
-                    Home
-                </v-btn>
-                <v-btn
-                    class="font-weight-bold"
-                    outlined
-                    color="#1976d2"
-                >
-                    Perfil
-                </v-btn>
-                <v-btn
-                    class="font-weight-bold"
-                    outlined
-                    color="#1976d2"
-                >
-                    Sair
-                </v-btn>
+                    <div v-if="!username">
+                        <v-btn
+                            class="font-weight-bold"
+                            outlined
+                            color="#1976d2"
+                            href="login"
+                        >
+                            Login
+                        </v-btn>
+                        <v-btn
+                            class="font-weight-bold"
+                            outlined
+                            color="#1976d2"
+                            href="register"
+                        >
+                            Register
+                        </v-btn>
+                    </div>
+                <div v-else>
+                    <v-btn
+                        class="font-weight-bold"
+                        outlined
+                        color="#1976d2"
+                        href="home"
+                    >
+                        Home
+                    </v-btn>
+                    <v-btn
+                        class="font-weight-bold"
+                        outlined
+                        color="#1976d2"
+                        :href="username"
+                    >
+                        Perfil
+                    </v-btn>
+                    <v-btn
+                        class="font-weight-bold"
+                        outlined
+                        color="#1976d2"
+                        @click="logout"
+                    >
+                        Sair
+                    </v-btn>
+                </div>
             </v-flex>
         </nav>
 
@@ -73,8 +96,21 @@
 </template>
 
 <script>
+    import axios from 'axios';
     export default {
         name: "Landing",
+        props: {
+            username: String,
+        },
+        methods: {
+            logout(){
+                let url = window.location.href;
+                axios.post(url + 'logout', {}).
+                    then(response => {
+                    window.location.href += 'login';
+                })
+            }
+        }
     }
 </script>
 
@@ -84,6 +120,9 @@
  }
     p , h1{
         text-align: center;
+    }
+    footer p{
+        font-size: 12px;
     }
     h1 {
         font-size: 35px;

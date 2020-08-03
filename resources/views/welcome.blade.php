@@ -18,8 +18,7 @@
     </head>
     <body>
     <div id="app">
-
-       <landing-page>
+       <landing-page @if(Auth::check()) :username="'{!! Auth::user()->username !!}'" @endif>
 
        </landing-page>
     </div>
