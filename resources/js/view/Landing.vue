@@ -2,7 +2,7 @@
     <v-app>
         <nav class="d-flex pa-10">
             <div>
-                <h1>Afrek</h1>
+                <h1>Chronology</h1>
             </div>
             <v-flex class="navbar" style="right: 5px; position: absolute">
                     <div v-if="!username">
@@ -56,7 +56,7 @@
         <v-container>
             <section data-aos="fade-up">
                 <h1 class="text-center">
-                    Afrek
+                    Chronology
                 </h1>
                 <div class="mx-10">
                     <p class="mx-10">
@@ -89,7 +89,7 @@
 
 
         <footer class="text-center d-block mt-10">
-            <p> Esse website tem fins apenas educativos para a comuninade</p>
+            <p> Esse website tem fins apenas educativos e para a comuninade</p>
             <p>Feito com <v-icon color="red">mdi-heart</v-icon> por "Magin02"</p>
         </footer>
     </v-app>
