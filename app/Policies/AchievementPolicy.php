@@ -29,9 +29,9 @@ class AchievementPolicy
      * @param Achievement $achievement
      * @return mixed
      */
-    public function all(User $user, Achievement $achievement)
+    public function all(User $user,$achievement)
     {
-        return $user->id === $achievement->user_id
+        return auth()->user()->id === $achievement->user_id
             ? Response::allow()
             : Response::deny('Você não pode fazer isso');
     }
@@ -43,7 +43,6 @@ class AchievementPolicy
      * @return mixed
      */
     public function create(User $user){
-
     }
 
     /**

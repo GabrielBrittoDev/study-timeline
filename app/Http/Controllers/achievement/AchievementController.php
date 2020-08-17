@@ -23,8 +23,8 @@ class AchievementController extends Controller
     public function store(AchievementStoreRequest $request){
         try {
             $validated = $request->validated();
-
-            $this->authorize('all', $request);
+            if (auth()->user()->id !== $request->user_id)
+                return response()->json(['Sem autorizaç�o' => 'Aç�o n�o autorizada'],422);
 
             $achievement = $this->achievement->create($validated);
             $message = 'Realização registrada com sucesso!';
@@ -32,7 +32,7 @@ class AchievementController extends Controller
         }catch (ValidationException $e){
             return response()->json(['message' => $e->getMessage()], 422);
         } catch (\Exception $e){
-            $message = 'Erro ao criar realização';
+            $message = $e->getMessage();
             return response()->json(compact('message'), 500);
         }
     }

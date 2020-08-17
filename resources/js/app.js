@@ -44,6 +44,9 @@ if (meta){
     Vue.prototype.$userId = Number(meta.getAttribute('content'));
 }
 
+Vue.prototype.$url = window.location.protocol + '//' + window.location.host;
+
+
 const app = new Vue({
     vuetify,
     el: '#app',

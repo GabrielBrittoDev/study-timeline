@@ -105,6 +105,7 @@
                 this.achievement.subtitle = '';
                 this.achievement.date = '';
                 this.achievement.title = '';
+                this.dateFormatted = '';
             },
         },
         watch: {

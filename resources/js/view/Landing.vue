@@ -104,8 +104,7 @@
         },
         methods: {
             logout(){
-                let url = window.location.href;
-                axios.post(url + 'logout', {}).
+                axios.post(this.$url + '/logout', {}).
                     then(response => {
                     window.location.href += 'login';
                 })

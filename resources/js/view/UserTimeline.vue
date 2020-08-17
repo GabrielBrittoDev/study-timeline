@@ -43,7 +43,7 @@
         },
         methods: {
             create(achievement){
-                axios.post('http://localhost:8000/achievement/', achievement)
+                axios.post(`${this.$url}/achievement/`, achievement)
                 .then((response) => {
                     this.achievements.push(response.data.achievement);
                     this.achievements = _.orderBy(this.achievements, [(obj => {
@@ -63,7 +63,7 @@
                     });
             },
             update(achievement){
-                axios.put('http://localhost:8000/achievement/' + achievement.id, achievement)
+                axios.put(`${this.$url}/achievement/${achievement.id}`, achievement)
                 .then(response => {
                     achievement = response.data.achievement;
                     this.achievements = this.achievements.map((value) => {
@@ -84,7 +84,7 @@
             },
 
             deleteAchievement(achievement){
-                axios.delete('http://localhost:8000/achievement/' + achievement.id)
+                axios.delete(`${this.$url}/achievement/${achievement.id}`)
                     .then(response => {
                         this.achievements = this.achievements.filter(value => value.id !== achievement.id);
                         this.$toastr.s(response.data.message, 'Sucesso! ');
