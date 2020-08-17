@@ -47,7 +47,8 @@ class AchievementController extends Controller
 
             $validated = $request->validated();
 
-            $this->authorize('all', $request);
+            if (auth()->user()->id !== $achievement->user_id)
+                return response()->json(['Sem autorizaç�o' => 'Aç�o n�o autorizada'],422);
 
             $achievement->update($validated);
             $message = 'Realização atualizada com sucesso!';
@@ -55,7 +56,7 @@ class AchievementController extends Controller
         } catch (ValidationException $e){
             return response()->json(['message' => $e->getMessage()], 422);
         } catch (\Exception $e){
-            $message = 'Erro ao atualizar realização';
+            $message = $e->getMessage();
             return response()->json(compact('message'), 500);
         }
     }
@@ -65,7 +66,9 @@ class AchievementController extends Controller
         try {
             $achievement = $this->achievement->findOrFail($id);
 
-            $this->authorize('all', $achievement);
+            if (auth()->user()->id !== $achievement->user_id)
+                return response()->json(['Sem autorizaç�o' => 'Aç�o n�o autorizada'],422);
+
 
             if ($achievement->delete()) {
                 return response()->json(['message' => 'Realização excluida'], 200);

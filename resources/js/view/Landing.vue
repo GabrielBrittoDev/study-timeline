@@ -1,58 +1,4 @@
 <template>
-    <v-app>
-        <nav class="d-flex pa-10">
-            <div>
-                <h1>Chronology</h1>
-            </div>
-            <v-flex class="navbar" style="right: 5px; position: absolute">
-                    <div v-if="!username">
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            href="login"
-                        >
-                            Login
-                        </v-btn>
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            href="register"
-                        >
-                            Register
-                        </v-btn>
-                    </div>
-                <div v-else>
-                    <v-btn
-                        class="font-weight-bold"
-                        outlined
-                        color="#1976d2"
-                        href="home"
-                    >
-                        Home
-                    </v-btn>
-                    <v-btn
-                        class="font-weight-bold"
-                        outlined
-                        color="#1976d2"
-                        :href="username"
-                    >
-                        Perfil
-                    </v-btn>
-                    <v-btn
-                        class="font-weight-bold"
-                        outlined
-                        color="#1976d2"
-                        @click="logout"
-                    >
-                        Sair
-                    </v-btn>
-                </div>
-            </v-flex>
-        </nav>
-
-
         <v-container>
             <section data-aos="fade-up">
                 <h1 class="text-center">
@@ -86,13 +32,6 @@
             </section>
         </v-container>
 
-
-
-        <footer class="text-center d-block mt-10">
-            <p> Esse website tem fins apenas educativos e para a comuninade</p>
-            <p>Feito com <v-icon color="red">mdi-heart</v-icon> por "Magin02"</p>
-        </footer>
-    </v-app>
 </template>
 
 <script>
@@ -113,23 +52,23 @@
     }
 </script>
 
-<style scoped>
- #app {
-     font-family: Source Sans Pro, Arial, sans-serif;
- }
-    p , h1{
-        text-align: center;
-    }
-    footer p{
-        font-size: 12px;
-    }
-    h1 {
-        font-size: 35px;
-    }
-    p{
-        font-size: 25px;
-    }
-    section{
-        margin: 150px 200px 0 200px;
-    }
+<style>
+#app {
+    font-family: Source Sans Pro, Arial, sans-serif;
+}
+p , h1{
+    text-align: center;
+}
+footer p{
+    font-size: 12px;
+}
+h1 {
+    font-size: 35px;
+}
+p{
+    font-size: 25px;
+}
+section{
+    margin: 150px 200px 0 200px;
+}
 </style>
