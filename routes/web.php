@@ -22,7 +22,7 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 Route::bind('username', function ($value){
-    return \App\User::where('username', $value)->first();
+    return \App\User::where('username', $value)->first() ?? abort(404);
 });
 
 

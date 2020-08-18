@@ -12,14 +12,14 @@
             <h4 v-if="achievement.subtitle !== null">{{achievement.subtitle}}</h4>
 
             <div>
-                {{ achievement.description}}
+                {{ achievement.description }}
             </div>
             <div  v-if="user_id && user_id === achievement.user_id">
-                <v-btn @click="confirmDelete">
-                    excluir
+                <v-btn text color="#d1342d" @click="confirmDelete">
+                    <v-icon>{{ mdiTrashCan }}</v-icon>
                 </v-btn>
-                <v-btn @click="edit">
-                    editar
+                <v-btn text color="#FFCC00" @click="edit">
+                    <v-icon>{{ mdiPencil }}</v-icon>
                 </v-btn>
             </div>
         </div>
@@ -27,6 +27,8 @@
 </template>
 
 <script>
+    import { mdiTrashCan , mdiPencil } from '@mdi/js';
+
     export default {
         props: {
             achievement: Object,
@@ -35,7 +37,9 @@
         },
         data(){
             return {
-                user_id: this.$userId
+                user_id: this.$userId,
+                mdiPencil,
+                mdiTrashCan
             }
         },
         methods: {

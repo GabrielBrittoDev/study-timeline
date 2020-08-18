@@ -6,54 +6,148 @@
                     <h1>Chronology</h1>
                 </div>
                 <v-flex class="navbar" style="right: 5px; position: absolute">
-                    <div v-if="!username">
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            :href="this.$url + '/login'"
-                        >
-                            Login
-                        </v-btn>
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            href="/register"
-                        >
-                            Register
-                        </v-btn>
+                    <div class="hidden-sm-and-down">
+                        <div v-if="!username">
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                :href="this.$url + '/login'"
+                            >
+                                Login
+                            </v-btn>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                href="/register"
+                            >
+                                Register
+                            </v-btn>
+                        </div>
+                        <div v-else>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                href="/home"
+                            >
+                                Home
+                            </v-btn>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                :href="username"
+                            >
+                                Perfil
+                            </v-btn>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#D1342D"
+                                @click="logout"
+                            >
+                                Sair
+                            </v-btn>
+
+                        </div>
                     </div>
-                    <div v-else>
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            href="/home"
-                        >
-                            Home
-                        </v-btn>
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            :href="username"
-                        >
-                            Perfil
-                        </v-btn>
-                        <v-btn
-                            class="font-weight-bold"
-                            outlined
-                            color="#1976d2"
-                            @click="logout"
-                        >
-                            Sair
-                        </v-btn>
-                    </div>
+                    <v-btn
+                        class="font-weight-bold hidden-md-and-up"
+                        outlined
+                        color="#1976d2"
+                        @click.stop="drawer = !drawer"
+                    >
+                        <v-icon>{{mdiApps}}</v-icon>
+                    </v-btn>
                 </v-flex>
             </nav>
-        </header>
 
+
+        </header>
+        <v-navigation-drawer
+            v-model="drawer"
+            absolute
+            right
+            temporary
+        >
+            <v-list-item>
+
+                <v-list-item-content>
+                    <v-list-item-title><h1>Chronology</h1></v-list-item-title>
+                </v-list-item-content>
+            </v-list-item>
+
+            <v-divider></v-divider>
+            <v-list dense>
+
+                <div v-if="!username">
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                :href="this.$url + '/login'"
+                            >
+                                Login
+                            </v-btn>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                :href="this.$url + '/login'"
+                            >
+                                Register
+                            </v-btn>
+                        </v-list-item-content>
+                    </v-list-item>
+                </div>
+                <div v-else>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                href="/home"
+                            >
+                                Home
+                            </v-btn>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#1976d2"
+                                :href="username"
+                            >
+                                Perfil
+                            </v-btn>
+                        </v-list-item-content>
+                    </v-list-item>
+                    <v-list-item>
+                        <v-list-item-content>
+                            <v-btn
+                                class="font-weight-bold"
+                                outlined
+                                color="#D1342D"
+                                @click="logout"
+                            >
+                                Sair
+                            </v-btn>
+                        </v-list-item-content>
+                    </v-list-item>
+                </div>
+            </v-list>
+        </v-navigation-drawer>
         <main id="page-container">
             <slot></slot>
         </main>
@@ -71,7 +165,7 @@
 
 <script>
 import axios from 'axios';
-import { mdiHeart } from '@mdi/js';
+import { mdiHeart, mdiApps } from '@mdi/js';
 
 export default {
     name: "App",
@@ -79,13 +173,19 @@ export default {
         username: String,
     },
     data: () => ({
-        mdiHeart
+        mdiHeart,
+        mdiApps,
+        drawer: false,
+        items: [
+            { title: 'Home', icon: 'dashboard' },
+            { title: 'About', icon: 'question_answer' },
+        ],
     }),
     methods: {
         logout(){
             axios.post(this.$url + '/logout', {}).
             then(response => {
-                window.location.href += 'login';
+                window.location.href = this.$url + '/login';
             })
         }
     }
