@@ -18,10 +18,18 @@
                 <v-container>
                     <v-row>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="achievement.title" label="Título*" required></v-text-field>
+                            <v-text-field
+                                v-model="achievement.title"
+                                :rules="[rules.required, rules.titleMax, rules.titleMin]"
+                                label="Título*"
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
-                            <v-text-field v-model="achievement.subtitle" label="Subtitulo"></v-text-field>
+                            <v-text-field
+                                v-model="achievement.subtitle"
+                                :rules='[rules.subtitleMax]'
+                                label="Subtitulo"
+                            ></v-text-field>
                         </v-col>
                         <v-col cols="12">
                             <v-menu
@@ -49,7 +57,11 @@
                             </v-menu>
                         </v-col>
                         <v-col cols="12">
-                            <v-textarea v-model="achievement.description" label="Descrição*"></v-textarea>
+                            <v-textarea
+                                v-model="achievement.description"
+                                label="Descrição*"
+                                :rules="[rules.descriptionMax, rules.descriptionMin]"
+                            ></v-textarea>
                         </v-col>
                     </v-row>
                 </v-container>
@@ -65,7 +77,8 @@
 </template>
 
 <script>
-    export default {
+
+export default {
         name: "Dialog",
         props: {
             create: Function,
@@ -85,6 +98,14 @@
                 menu: false,
                 dateFormatted: '',
                 dialog: false,
+                rules : {
+                    required: value => !!value || 'Campo obrigat�rio.',
+                    titleMin: v => v.length >= 2 || `Minimo de 2 caracteres.`,
+                    titleMax: v => v.length <= 40 || `Maximo de 40 caracteres.`,
+                    subtitleMax: v => v.length <= 25 || `Minimo de 25 caracteres.`,
+                    descriptionMin: v => v.length >= 10 || `Minimo de 10 caracteres.`,
+                    descriptionMax: v => v.length <= 300 || `Maximo de 300 caracteres.`,
+                },
             }
         },
         methods: {
