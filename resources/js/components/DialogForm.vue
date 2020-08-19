@@ -20,15 +20,15 @@
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field
                                 v-model="achievement.title"
-                                :rules="[rules.required, rules.titleMax, rules.titleMin]"
+                                :rules="[rules.title]"
                                 label="Título*"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12" sm="6" md="6">
                             <v-text-field
                                 v-model="achievement.subtitle"
-                                :rules='[rules.subtitleMax]'
                                 label="Subtitulo"
+                                :rules="[rules.subtitle]"
                             ></v-text-field>
                         </v-col>
                         <v-col cols="12">
@@ -45,22 +45,27 @@
                                     <v-text-field
                                         v-model="dateFormatted"
                                         label="Data"
-                                        hint="DD/MM/AAAA formato"
+                                        hint="DD/MM/AAAA"
                                         persistent-hint
                                         append-icon="event"
                                         v-bind="attrs"
                                         @blur="achievement.date = parseDate(dateFormatted)"
                                         v-on="on"
+                                        :rules="[rules.date]"
                                     ></v-text-field>
                                 </template>
-                                <v-date-picker v-model="achievement.date" no-title @input="menu = false"></v-date-picker>
+                                <v-date-picker
+                                    v-model="achievement.date"
+                                    no-title
+                                    @input="menu = false"
+                                ></v-date-picker>
                             </v-menu>
                         </v-col>
                         <v-col cols="12">
                             <v-textarea
                                 v-model="achievement.description"
                                 label="Descrição*"
-                                :rules="[rules.descriptionMax, rules.descriptionMin]"
+                                :rules="[rules.description]"
                             ></v-textarea>
                         </v-col>
                     </v-row>
@@ -77,8 +82,21 @@
 </template>
 
 <script>
+import {validate, required, minLength, maxLength} from "../validation/Validator";
+
+const valid5DaysRule = (date) => {
+    let today = new Date();
+    let parts = date.split('/');
+    date = new Date(parts[2], parts[1] - 1, parts[0]);
+    let afterDate =  new Date(Date.now() + 5 * 24*60*60*1000);
+    let beforeDate =  new Date(Date.now() - 5 * 24*60*60*1000);
+
+    return (date > beforeDate && date < afterDate) || 'Data invalida';
+}
+
 
 export default {
+
         name: "Dialog",
         props: {
             create: Function,
@@ -99,12 +117,10 @@ export default {
                 dateFormatted: '',
                 dialog: false,
                 rules : {
-                    required: value => !!value || 'Campo obrigat�rio.',
-                    titleMin: v => v.length >= 2 || `Minimo de 2 caracteres.`,
-                    titleMax: v => v.length <= 40 || `Maximo de 40 caracteres.`,
-                    subtitleMax: v => v.length <= 25 || `Minimo de 25 caracteres.`,
-                    descriptionMin: v => v.length >= 10 || `Minimo de 10 caracteres.`,
-                    descriptionMax: v => v.length <= 300 || `Maximo de 300 caracteres.`,
+                    title : v => validate([required(v), maxLength(v, 40) ,minLength(v, 2)]),
+                    subtitle : v => validate([maxLength(v, 25)]),
+                    date : v => validate([required(v), valid5DaysRule(v)]),
+                    description : v => validate([required(v), minLength(v, 10), maxLength(v, 300)]),
                 },
             }
         },
@@ -131,6 +147,7 @@ export default {
         },
         watch: {
             'achievement.date': function (newVal, oldVal) {
+                console.log(this.formatDate(this.achievement.date), 'wwaawdwad');
                 this.dateFormatted = this.formatDate(this.achievement.date);
             },
             'achievement.id': function (newVal, oldVal){
