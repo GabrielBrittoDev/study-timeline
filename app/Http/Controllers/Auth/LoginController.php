@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use App\Providers\RouteServiceProvider;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
+use Illuminate\Http\Request;
+use Illuminate\Http\Response;
 
 class LoginController extends Controller
 {
@@ -37,4 +39,43 @@ class LoginController extends Controller
     {
         $this->middleware('guest')->except('logout');
     }
+
+
+
+
+    public function login(Request $request)
+    {
+
+//        if (method_exists($this, 'hasTooManyLoginAttempts') &&
+//            $this->hasTooManyLoginAttempts($request)) {
+//            $this->fireLockoutEvent($request);
+//
+//            return $this->sendLockoutResponse($request);
+//        }
+
+        $credentials = $request->only('email', 'password', 'remember');
+        //HERE CHECKS IF THE EMAIL OF THE REQUEST IS AN EMAIL OR A USERNAME
+        $userLogin = strpos($credentials['email'], '@') ? 'email' : 'username';
+        if (auth()->attempt([$userLogin => $credentials['email'], 'password' => $credentials['password']], $credentials['remember'])) {
+            return $this->sendLoginResponse($request);
+        }
+
+        $this->incrementLoginAttempts($request);
+
+        return response()->json(['message' => 'Login ou senha inv�lidos'], 401);
+    }
+
+    protected function sendLoginResponse(Request $request)
+    {
+        $request->session()->regenerate();
+
+        $this->clearLoginAttempts($request);
+
+        if ($response = $this->authenticated($request, $this->guard()->user())) {
+                return response()->json(['message' => 'Login ou senha inv�lidos'], 401);
+        }
+
+        return response()->json(['message' => 'Logado com sucesso!'], 200);
+    }
+
 }

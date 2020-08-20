@@ -33,6 +33,7 @@ Vue.component('timeline', require('./components/Timeline.vue').default);
 Vue.component('user_timeline', require('./view/UserTimeline.vue').default);
 Vue.component('dialog-form', require('./components/DialogForm.vue').default);
 Vue.component('landing-page', require('./view/Landing.vue').default);
+Vue.component('login-page', require('./view/auth/Login.vue').default);
 Vue.component('app', require('./layouts/App.vue').default);
 
 
