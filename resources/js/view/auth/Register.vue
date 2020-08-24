@@ -55,14 +55,14 @@ export default {
     name: "Register",
     data(){
       return {
-          show: false,
           form: {
-              name: 'Gabriel Leal',
-              email: 'a@a.com',
-              username: 'Magin03',
-              password: '123456789',
-              password_confirm: '123456789',
+              name: '',
+              email: '',
+              username: '',
+              password: '',
+              password_confirm: '',
           },
+          show: false,
           mdiEye,
           mdiEyeOff
       }
