@@ -62,7 +62,7 @@ class LoginController extends Controller
 
         $this->incrementLoginAttempts($request);
 
-        return response()->json(['message' => 'Login ou senha inv�lidos'], 401);
+        return response()->json(['message' => 'Login ou senha inválidos'], 401);
     }
 
     protected function sendLoginResponse(Request $request)
@@ -72,7 +72,7 @@ class LoginController extends Controller
         $this->clearLoginAttempts($request);
 
         if ($response = $this->authenticated($request, $this->guard()->user())) {
-                return response()->json(['message' => 'Login ou senha inv�lidos'], 401);
+                return response()->json(['message' => 'Login ou senha inválidos'], 401);
         }
 
         return response()->json(['message' => 'Logado com sucesso!'], 200);

@@ -20,7 +20,7 @@ class RegisterRequest extends FormRequest
         'name' => ['required', 'string', 'max:200', 'min:3'],
         'username' => ['required', 'string', 'max:20', 'min:3', 'unique:users'],
         'email' => ['required', 'string', 'email', 'max:255', 'unique:users'],
-        'password' => ['required', 'string', 'min:8','max:20'],
+        'password' => ['required', 'string', 'min:8','max:25'],
     ];
 
     public static $messages = [
