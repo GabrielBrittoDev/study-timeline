@@ -57,7 +57,7 @@
                                 <v-date-picker
                                     v-model="achievement.date"
                                     no-title
-                                    @input="menu = false"
+                                    @input="changeDate()"
                                 ></v-date-picker>
                             </v-menu>
                         </v-col>
@@ -144,13 +144,13 @@ export default {
                 this.achievement.title = '';
                 this.dateFormatted = '';
             },
+            changeDate(){
+                this.dateFormatted = this.formatDate(this.achievement.date);
+                this.menu = false;
+            }
         },
         watch: {
-            'achievement.date': function (newVal, oldVal) {
-                console.log(this.formatDate(this.achievement.date), 'wwaawdwad');
-                this.dateFormatted = this.formatDate(this.achievement.date);
-            },
-            'achievement.id': function (newVal, oldVal){
+            'achievement.id': (newVal, oldVal) => {
                 if (newVal !== 0 && newVal !== undefined) this.dialog = true;
             },
             dialog(newVal, oldVal){
