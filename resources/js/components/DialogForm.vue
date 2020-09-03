@@ -149,8 +149,13 @@ export default {
                 this.menu = false;
             }
         },
+        computed: {
+            achievementId() {
+                return this.achievement.id;
+            },
+        },
         watch: {
-            'achievement.id': (newVal, oldVal) => {
+            achievementId(newVal, oldVal) {
                 if (newVal !== 0 && newVal !== undefined) this.dialog = true;
             },
             dialog(newVal, oldVal){
